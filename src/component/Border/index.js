@@ -11,8 +11,10 @@ export default class Border extends BaseComponent {
 		return (
 			<div>
 				<div className="border">
-					圆角：border-radius:25px; <br/>
+					<code>
+					圆角：border-radius:25px;
 					阴影：box-shadow: 10px 10px 3px #8888888;
+					</code>
 				</div>
 
 				<Link to="/background">
