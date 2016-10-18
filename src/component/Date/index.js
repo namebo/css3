@@ -3,6 +3,9 @@ import React, {Component}from 'react';
 export default class Dates extends Component {
     constructor(props) {
         super(props);
+        this.setState({
+            date:null
+        })
     }
     componentWillMount() {
         var date = new Date();
@@ -156,9 +159,9 @@ export default class Dates extends Component {
             selectedMonth: selectedMonth,
             selectedDay: selectedDay,
             showYear: selectedYear,
-            showMonth: selectedMonth
+            showMonth: selectedMonth,
+            date: selectedYear + "/" + selectedMonth + "/" + selectedDay
         });
-        document.getElementById("picker-input").value =selectedYear + "/" + selectedMonth + "/" + selectedDay;
         this.show();
     }
 
@@ -206,14 +209,15 @@ export default class Dates extends Component {
             showDay: nowDay,
             selectedDay: nowDay,
             selectedMonth: nowMonth,
-            selectedYear: nowYear
+            selectedYear: nowYear,
+            date: nowYear + "/" + nowMonth + "/" + nowDay
         });
-        document.getElementById("picker-input").value =nowYear + "/" + nowMonth + "/" + nowDay;
     }
 
-    inputDate(){
-        var valve = document.getElementById("picker-input").value;
-        var dates = valve.split("/");
+    onInputChange(){
+        let date = this.refs['date'].value;
+
+        var dates = date.split("/");
         if (dates.length != 3){
             return ;
         }
@@ -222,17 +226,17 @@ export default class Dates extends Component {
             selectedMonth: dates[1],
             selectedDay: dates[2],
             showYear: dates[0],
-            showMonth: dates[1]
+            showMonth: dates[1],
+            date
         })
     }
-
     render() {
-        var {isShowPicker} = this.state;
+        var {isShowPicker,date} = this.state;
         var style = isShowPicker?"calendar-picker  calendar-picker-action calendar-single-picker":"calendar-picker  calendar-single-picker";
         return (
             <div className={style}>
                 <div className="calendar-picker-input-wrapper"  onClick={this.show.bind(this)}>
-                    <input type="input" name="" className="calendar-picker-input" id="picker-input" placeholder="请选择日期" onKeyUp={this.inputDate.bind(this)}/>
+                    <input type="input" name="" className="calendar-picker-input" placeholder="请选择日期" value={date} onChange={this.onInputChange.bind(this)}  ref="date" />
                     <span className="icon-calendar-picker" onClick={this.deleteTime.bind(this)}></span>
                 </div>
                 {this.getDataTable()}
